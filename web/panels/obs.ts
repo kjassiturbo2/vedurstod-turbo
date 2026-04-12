@@ -16,6 +16,12 @@ interface Obs {
   };
 }
 
+interface Textaspa {
+  title: string;
+  createdAt: string | null;
+  paragraphs: string[];
+}
+
 const DIRS: Record<string, number> = {
   N: 0,
   NNA: 22.5,
@@ -192,12 +198,16 @@ export function obsPanel(): Panel {
   let stationLabel: HTMLElement;
   let timestampLabel: HTMLElement;
   let statusLamp: HTMLElement;
+  let textaspaBody: HTMLElement;
+  let textaspaTimestamp: HTMLElement;
   let obsUrl = '/api/obs';
+  let textaspaUrl = '/api/textaspa';
 
   return {
     intervalMs: 15 * 60 * 1000,
     mount(el_root, ctx) {
       obsUrl = ctx.apiUrl('obs');
+      textaspaUrl = ctx.apiUrl('textaspa');
       root = el_root;
       root.innerHTML = '';
 
@@ -231,12 +241,24 @@ export function obsPanel(): Panel {
         'div',
         { class: 'readouts readouts--sub' },
         buildReadout('DAGGARMARK', 'obs-dew', '°C'),
-        buildReadout('RAKASTIG', 'obs-rh', '%'),
+        buildReadout('RAKI', 'obs-rh', '%'),
         buildReadout('LOFTÞRÝSTINGUR', 'obs-pressure', 'hPa'),
       );
       const right = el('div', { class: 'obs__right' }, tempMain, subRow);
 
       body.append(gaugeWrap, right);
+
+      // Textaspa section
+      const textaspaSection = el('div', { class: 'textaspa' });
+      const textaspaHeader = el(
+        'div',
+        { class: 'textaspa__header' },
+        el('span', { class: 'textaspa__title' }, 'HUGLEIÐINGAR VEÐURFRÆÐINGS'),
+      );
+      textaspaTimestamp = el('span', { class: 'textaspa__timestamp' }, '');
+      textaspaHeader.append(textaspaTimestamp);
+      textaspaBody = el('div', { class: 'textaspa__body' });
+      textaspaSection.append(textaspaHeader, textaspaBody);
 
       stationLabel = el('span', { class: 'panel__footer-label' }, ctx.station.name.toUpperCase());
       timestampLabel = el('span', { class: 'panel__footer-value', id: 'obs-ts' }, '—');
@@ -249,7 +271,7 @@ export function obsPanel(): Panel {
         timestampLabel,
       );
 
-      root.append(header, body, footer);
+      root.append(header, body, textaspaSection, footer);
     },
     async refresh() {
       if (!gauge) return;
@@ -295,6 +317,27 @@ export function obsPanel(): Panel {
         console.warn('obs refresh failed', err);
         statusLamp.classList.remove('status-lamp--on');
         statusLamp.classList.add('status-lamp--alert');
+      }
+
+      try {
+        const spa = await getJson<Textaspa>(textaspaUrl);
+        textaspaBody.innerHTML = '';
+        for (const para of spa.paragraphs) {
+          textaspaBody.append(el('p', { class: 'textaspa__para' }, para));
+        }
+        if (spa.createdAt) {
+          const fmt3 = new Intl.DateTimeFormat('is-IS', {
+            hour: '2-digit',
+            minute: '2-digit',
+            day: '2-digit',
+            month: '2-digit',
+            hour12: false,
+            timeZone: 'Atlantic/Reykjavik',
+          });
+          textaspaTimestamp.textContent = fmt3.format(new Date(spa.createdAt));
+        }
+      } catch (err) {
+        console.warn('textaspa refresh failed', err);
       }
     },
   };

@@ -99,7 +99,7 @@ export function warningsPanel(): Panel {
       masterLamp = el('span', { class: 'status-lamp status-lamp--large' });
       header.append(
         el('h2', { class: 'panel__title' }, 'VIÐVARANIR'),
-        el('div', { class: 'panel__status' }, masterLamp, document.createTextNode(' VIRKAR')),
+        el('div', { class: 'panel__status' }, masterLamp, document.createTextNode('Í GILDI')),
       );
 
       const body = el('div', { class: 'panel__body panel__body--warnings' });

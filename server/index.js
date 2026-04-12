@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { getObservation } from './sources/obs.js';
 import { getForecast } from './sources/forecast.js';
 import { getWarnings } from './sources/warnings.js';
+import { getTextaspa } from './sources/textaspa.js';
 import { DEFAULT_STATION, resolveCoord, resolveStationId } from './config.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
@@ -80,6 +81,8 @@ async function handleApi(req, res, pathname, query) {
         return sendJson(res, 200, await getForecast(stationId));
       case '/api/warnings':
         return sendJson(res, 200, await getWarnings(lat, lon));
+      case '/api/textaspa':
+        return sendJson(res, 200, await getTextaspa());
       case '/api/health':
         return sendJson(res, 200, { ok: true, ts: new Date().toISOString() });
       case '/api/station-default':

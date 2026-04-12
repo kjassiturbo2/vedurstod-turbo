@@ -94,13 +94,13 @@ export function moonPanel(): Panel {
         el(
           'div',
           { class: 'moon__countdown-cell' },
-          el('div', { class: 'moon__countdown-label' }, 'NÆSTA NÝTT'),
+          el('div', { class: 'moon__countdown-label' }, 'NÆSTA NÝJA'),
           nextNewCountEl,
         ),
         el(
           'div',
           { class: 'moon__countdown-cell' },
-          el('div', { class: 'moon__countdown-label' }, 'NÆSTA FULLT'),
+          el('div', { class: 'moon__countdown-label' }, 'NÆSTA FULLA'),
           nextFullCountEl,
         ),
       );
