@@ -1183,6 +1183,69 @@ body {
   font-family: 'IBM Plex Mono', monospace;
 }
 
+/* ================ Textaspa (inside obs panel) ================ */
+
+.textaspa {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--bezel-lo);
+  box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.textaspa__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.textaspa__title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--label-dim);
+}
+
+.textaspa__timestamp {
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  color: var(--crt-amber-dim);
+  letter-spacing: 0.04em;
+}
+
+.textaspa__body {
+  overflow-y: auto;
+  max-height: 180px;
+  padding: 10px 14px;
+  background: radial-gradient(circle at 50% 30%, #241a08 0%, #0a0503 100%);
+  border: 1px solid var(--bezel-lo);
+  border-radius: 6px;
+  box-shadow:
+    inset 0 2px 4px #000,
+    inset 0 -1px 0 #3a2f18;
+}
+
+.textaspa__body::-webkit-scrollbar {
+  width: 6px;
+}
+.textaspa__body::-webkit-scrollbar-thumb {
+  background: #3d342d;
+  border-radius: 3px;
+}
+
+.textaspa__para {
+  margin: 0 0 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--crt-amber);
+  text-shadow: 0 0 6px var(--crt-amber-dim);
+}
+
+.textaspa__para:last-child {
+  margin-bottom: 0;
+}
+
 /* ================ Placeholder panels ================ */
 
 .panel--placeholder .panel__body--empty {
