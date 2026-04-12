@@ -1,0 +1,14 @@
+[
+  { "id": 422,  "name": "Reykjavík",              "lat": 64.133,  "lon": -21.9   },
+  { "id": 1471, "name": "Seltjarnarnes",           "lat": 64.1542, "lon": -22.027 },
+  { "id": 1475, "name": "Keflavíkurflugvöllur",   "lat": 63.967,  "lon": -22.6   },
+  { "id": 1,    "name": "Stykkishólmur",           "lat": 65.083,  "lon": -22.733 },
+  { "id": 6,    "name": "Vestmannaeyjar",          "lat": 63.433,  "lon": -20.267 },
+  { "id": 191,  "name": "Akureyri",               "lat": 65.683,  "lon": -18.1   },
+  { "id": 2642, "name": "Ísafjörður",             "lat": 66.063,  "lon": -23.135 },
+  { "id": 5440, "name": "Siglufjörður",           "lat": 66.15,   "lon": -18.917 },
+  { "id": 570,  "name": "Egilsstaðir",            "lat": 65.283,  "lon": -14.4   },
+  { "id": 261,  "name": "Höfn í Hornafirði",      "lat": 64.267,  "lon": -15.2   },
+  { "id": 1393, "name": "Vík í Mýrdal",           "lat": 63.417,  "lon": -19.0   },
+  { "id": 3133, "name": "Kirkjubæjarklaustur",    "lat": 63.783,  "lon": -18.05  }
+]
