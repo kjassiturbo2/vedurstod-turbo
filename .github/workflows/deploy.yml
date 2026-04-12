@@ -8,8 +8,5 @@ jobs:
   deploy:
     runs-on: self-hosted
     steps:
-      - name: Pull & redeploy
-        run: |
-          cd /opt/vedurstod-turbo
-          git pull origin main
-          docker compose up -d --build vedur
+      - name: Run deploy script
+        run: sudo /opt/vedurstod-turbo/deploy.sh
