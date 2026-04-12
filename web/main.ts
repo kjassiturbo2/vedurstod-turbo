@@ -28,6 +28,7 @@ function buildContext(station: Station): PanelContext {
     apiUrl(endpoint: string) {
       const params = new URLSearchParams({
         station: String(station.id),
+        forecastStation: String(station.forecastId ?? station.id),
         lat: station.lat.toFixed(6),
         lon: station.lon.toFixed(6),
       });
