@@ -26,6 +26,8 @@
   { "id": 3471, "name": "Akureyri",                         "lat": 65.683,  "lon": -18.100 },
   { "id": 3696, "name": "Húsavík",                          "lat": 66.043,  "lon": -17.340 },
   { "id": 4300, "name": "Mývatn",                           "lat": 65.600,  "lon": -16.990 },
+  { "id": 4406, "name": "Krafla",                            "lat": 65.717,  "lon": -16.783 },
+  { "id": 4500, "name": "Þeistareykir",                     "lat": 65.883,  "lon": -17.167 },
   { "id": 4614, "name": "Ásbyrgi",                          "lat": 66.017,  "lon": -16.500 },
   { "id": 4828, "name": "Raufarhöfn",                       "lat": 66.452,  "lon": -15.952 },
   { "id": 571,  "name": "Egilsstaðaflugvöllur",             "lat": 65.283,  "lon": -14.401 },
