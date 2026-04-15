@@ -8,6 +8,7 @@ RUN npm run build
 
 # Stage 2: runtime
 FROM node:20-alpine
+RUN apk add --no-cache ca-certificates
 WORKDIR /app
 ENV NODE_ENV=production
 COPY package*.json ./
