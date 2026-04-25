@@ -22,6 +22,17 @@ interface Textaspa {
   paragraphs: string[];
 }
 
+// Shown when vedur.is publishes no hugleiðingar — gives the empty
+// screen something to say in the spirit of the meteorologist's column.
+const TEXTASPA_FALLBACKS = [
+  'Veðurfræðingur er að fylgjast með málningu þorna og hefur ekki tíma til hugleiðslu.',
+  'Veðurfræðingur heyrir grasið vaxa en hefur ekki leitt hugann að veðri í dag.',
+  'Yfir landinu er hæð lengst uppi og veðurfræðingur kúrir þar með henni.',
+  'Fullkomin áttleysa í dag, drengur. Veðurfræðingur hefur ekki leitt hugann að veðrinu vegna heyanna.',
+  'Brakandi þurrkur og allir úti á túni. Veðurfræðingur hefur ekki leitt hugann að veðri í dag vegna heyanna.',
+  'Vinsamlegast dokið við, veðurfræðingur er að hugleiða í þessum rituðu orðum. Ef ekkert heyrist frá honum fyrir kaffi má hringja á björgunarsveit.',
+];
+
 const DIRS: Record<string, number> = {
   N: 0,
   NNA: 22.5,
@@ -329,8 +340,14 @@ export function obsPanel(): Panel {
       try {
         const spa = await getJson<Textaspa>(textaspaUrl);
         textaspaBody.innerHTML = '';
-        for (const para of spa.paragraphs) {
-          textaspaBody.append(el('p', { class: 'textaspa__para' }, para));
+        const paragraphs = spa.paragraphs.filter((p) => p.trim().length > 0);
+        if (paragraphs.length === 0) {
+          const phrase = TEXTASPA_FALLBACKS[Math.floor(Math.random() * TEXTASPA_FALLBACKS.length)];
+          textaspaBody.append(el('p', { class: 'textaspa__para textaspa__para--fallback' }, phrase));
+        } else {
+          for (const para of paragraphs) {
+            textaspaBody.append(el('p', { class: 'textaspa__para' }, para));
+          }
         }
         if (spa.createdAt) {
           const fmt3 = new Intl.DateTimeFormat('is-IS', {
