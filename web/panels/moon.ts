@@ -2,14 +2,15 @@ import SunCalc from 'suncalc';
 import type { Panel } from './types.ts';
 import { el, svg } from './types.ts';
 
+// Phase names follow stjornufraedi.is/solkerfid/tunglid/kvartilaskipti.
 const PHASE_NAMES: Array<{ max: number; name: string }> = [
   { max: 0.03, name: 'Nýtt tungl' },
   { max: 0.22, name: 'Vaxandi sigð' },
-  { max: 0.28, name: 'Fyrsta kvartil' },
-  { max: 0.47, name: 'Vaxandi gleiður' },
+  { max: 0.28, name: 'Hálft vaxandi tungl' },
+  { max: 0.47, name: 'Vaxandi gleitt tungl' },
   { max: 0.53, name: 'Fullt tungl' },
-  { max: 0.72, name: 'Minnkandi gleiður' },
-  { max: 0.78, name: 'Síðasta kvartil' },
+  { max: 0.72, name: 'Minnkandi gleitt tungl' },
+  { max: 0.78, name: 'Hálft minnkandi tungl' },
   { max: 0.97, name: 'Minnkandi sigð' },
   { max: 1.01, name: 'Nýtt tungl' },
 ];
