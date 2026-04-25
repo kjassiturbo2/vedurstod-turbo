@@ -37,8 +37,8 @@ function timeAgo(iso: string, now: Date): string {
 }
 
 function magClass(mag: number): string {
-  if (mag >= 4) return 'quake-row--strong';
-  if (mag >= 3) return 'quake-row--medium';
+  if (mag > 4) return 'quake-row--strong';
+  if (mag > 3) return 'quake-row--amber';
   return 'quake-row--minor';
 }
 
@@ -108,7 +108,9 @@ export function quakesPanel(): Panel {
       try {
         const data = await getJson<QuakesResponse>('/api/quakes');
         const now = new Date();
-        const quakes = data.quakes ?? [];
+        const quakes = (data.quakes ?? []).filter(
+          (q) => Number.isFinite(q.magnitude) && q.magnitude >= 1,
+        );
 
         const featured = quakes
           .filter((q) => q.magnitude >= 3)

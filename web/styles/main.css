@@ -1413,9 +1413,9 @@ body {
   text-shadow: 0 0 4px #2c4a26;
 }
 
-.quake-row--medium .quake-row__mag {
-  color: var(--lamp-yellow);
-  text-shadow: 0 0 6px var(--lamp-glow-yellow);
+.quake-row--amber .quake-row__mag {
+  color: var(--crt-amber);
+  text-shadow: 0 0 8px var(--crt-amber-dim);
 }
 
 .quake-row--strong {
