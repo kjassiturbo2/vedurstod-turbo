@@ -1,6 +1,5 @@
 import type { Panel } from './types.ts';
 import { el, getJson } from './types.ts';
-import { describeLocation } from './quake-places.ts';
 
 interface Quake {
   id: string;
@@ -9,6 +8,7 @@ interface Quake {
   time: string;
   magnitude: number;
   depth: number;
+  place: string | null;
 }
 
 interface QuakesResponse {
@@ -54,7 +54,7 @@ function renderRow(q: Quake, now: Date): HTMLElement {
     el(
       'div',
       { class: 'quake-row__main' },
-      el('div', { class: 'quake-row__place' }, describeLocation(q.lat, q.lon)),
+      el('div', { class: 'quake-row__place' }, q.place ?? '—'),
       el(
         'div',
         { class: 'quake-row__sub' },
