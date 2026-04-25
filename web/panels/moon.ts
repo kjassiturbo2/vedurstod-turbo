@@ -55,11 +55,11 @@ const TIME_FMT = new Intl.DateTimeFormat('is-IS', {
 
 function countdownText(from: Date, to: Date): string {
   const diff = to.getTime() - from.getTime();
-  if (diff <= 0) return '0d 0h';
+  if (diff <= 0) return '0d 00st';
   const totalH = Math.floor(diff / 3600000);
   const days = Math.floor(totalH / 24);
   const hours = totalH % 24;
-  return `${days}d ${hours.toString().padStart(2, '0')}h`;
+  return `${days}d ${hours.toString().padStart(2, '0')}st`;
 }
 
 export function moonPanel(): Panel {

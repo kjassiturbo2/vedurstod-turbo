@@ -62,7 +62,7 @@ function countdownText(from: Date, to: Date): string {
   const totalMin = Math.floor(diff / 60000);
   const h = Math.floor(totalMin / 60);
   const m = totalMin % 60;
-  return `${h}h ${m.toString().padStart(2, '0')}m`;
+  return `${h}st ${m.toString().padStart(2, '0')}m`;
 }
 
 export function tidesPanel(): Panel {
