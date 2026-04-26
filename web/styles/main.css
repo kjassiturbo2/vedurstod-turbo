@@ -24,6 +24,30 @@
   --lamp-glow-yellow: #f2c64288;
   --lamp-glow-orange: #f28b2a88;
   --lamp-glow-red: #e23e2aaa;
+
+  /* Backlit readout face — radial brightening + faint amber halo so
+     the boxes read like back-illuminated analog dials, not painted-on
+     glass. Used by every CRT readout, the wind dial wrap, etc. */
+  --screen-lit-bg: radial-gradient(
+    ellipse 120% 75% at 50% 35%,
+    #1f1308 0%,
+    #150d05 55%,
+    #0d0703 100%
+  );
+  --screen-lit-shadow:
+    inset 0 0 16px rgba(245, 166, 35, 0.07),
+    inset 0 1px 2px rgba(0, 0, 0, 0.55);
+
+  /* Cool variant for the moon disc, where the night-sky palette rules. */
+  --screen-moon-bg: radial-gradient(
+    circle at 50% 38%,
+    #0e1726 0%,
+    #08111e 55%,
+    #03060d 100%
+  );
+  --screen-moon-shadow:
+    inset 0 0 18px rgba(90, 140, 220, 0.08),
+    inset 0 1px 3px rgba(0, 0, 0, 0.7);
 }
 
 * {
@@ -210,10 +234,10 @@ body {
 
 .station-form__row input {
   all: unset;
-  background: #120c04;
+  background: var(--screen-lit-bg);
   border: 1px solid #1a1410;
   border-radius: 4px;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.55);
+  box-shadow: var(--screen-lit-shadow);
   padding: 8px 10px;
   font-family: 'VT323', monospace;
   font-size: 20px;
@@ -554,10 +578,10 @@ body {
 }
 
 .panel__gauge {
-  background: #120c04;
+  background: var(--screen-lit-bg);
   border-radius: 12px;
   border: 1px solid #1a1410;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.55);
+  box-shadow: var(--screen-lit-shadow);
   padding: 14px;
   display: flex;
   justify-content: center;
@@ -744,10 +768,10 @@ body {
 }
 
 .readout__screen {
-  background: #120c04;
+  background: var(--screen-lit-bg);
   border: 1px solid #1a1410;
   border-radius: 6px;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.55);
+  box-shadow: var(--screen-lit-shadow);
   padding: 8px 12px;
   display: flex;
   align-items: baseline;
@@ -1108,10 +1132,10 @@ body {
 }
 
 .moon__countdown-cell {
-  background: #120c04;
+  background: var(--screen-lit-bg);
   border: 1px solid #1a1410;
   border-radius: 6px;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.55);
+  box-shadow: var(--screen-lit-shadow);
   padding: 8px 10px 10px;
   display: flex;
   flex-direction: column;
@@ -1149,12 +1173,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #050810;
+  background: var(--screen-moon-bg);
   border: 1px solid #0c1018;
   border-radius: 50%;
   aspect-ratio: 1 / 1;
   padding: 14px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.7);
+  box-shadow: var(--screen-moon-shadow);
 }
 
 .moon-orb {
@@ -1264,10 +1288,10 @@ body {
   overflow-y: auto;
   max-height: 180px;
   padding: 10px 14px;
-  background: #120c04;
+  background: var(--screen-lit-bg);
   border: 1px solid #1a1410;
   border-radius: 6px;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.55);
+  box-shadow: var(--screen-lit-shadow);
 }
 
 .textaspa__body::-webkit-scrollbar {
@@ -1299,10 +1323,10 @@ body {
 }
 
 .tides__cell {
-  background: #120c04;
+  background: var(--screen-lit-bg);
   border: 1px solid #1a1410;
   border-radius: 6px;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.55);
+  box-shadow: var(--screen-lit-shadow);
   padding: 10px 12px;
   display: flex;
   flex-direction: column;
