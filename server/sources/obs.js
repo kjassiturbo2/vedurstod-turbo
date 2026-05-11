@@ -40,6 +40,20 @@ async function load(stationId) {
   };
 }
 
+function hasAnyReading(obs) {
+  return (
+    obs.temperature !== null ||
+    obs.humidity !== null ||
+    obs.pressure !== null ||
+    obs.dewPoint !== null ||
+    obs.wind.speed !== null ||
+    obs.wind.gust !== null ||
+    obs.wind.direction !== null
+  );
+}
+
 export function getObservation(stationId = DEFAULT_STATION.id) {
-  return cached(`obs:${stationId}`, TTL, () => load(stationId));
+  return cached(`obs:${stationId}`, TTL, () => load(stationId), {
+    shouldCache: hasAnyReading,
+  });
 }
