@@ -36,6 +36,16 @@
           <span class="console__meta-value" id="clock">--:--:--</span>
         </div>
       </header>
+      <nav class="tabstrip" id="tabstrip" aria-label="Veðurstöðvar">
+        <div class="tabstrip__tabs" id="tabstrip-tabs" role="tablist"></div>
+        <button type="button" class="tabstrip__add" id="tabstrip-add" title="Bæta við flipa" aria-label="Bæta við flipa"></button>
+        <div class="tabstrip__sep" aria-hidden="true"></div>
+        <div class="tabstrip__tools">
+          <button type="button" class="tabstrip__tool" id="preset-export" title="Vista forstillingu (.json)" aria-label="Vista forstillingu"></button>
+          <button type="button" class="tabstrip__tool" id="preset-import" title="Hlaða forstillingu (.json)" aria-label="Hlaða forstillingu"></button>
+          <input type="file" id="preset-file" accept="application/json,.json" hidden />
+        </div>
+      </nav>
       <main class="console__grid">
         <section class="panel panel--obs" data-panel="obs"></section>
         <section class="panel panel--forecast" data-panel="forecast"></section>
@@ -51,9 +61,11 @@
       </footer>
     </div>
 
+    <div id="modal-backdrop" class="modal-backdrop" aria-hidden="true"></div>
+
     <dialog id="station-dialog" class="station-dialog">
       <form method="dialog" class="station-form" id="station-form">
-        <h3 class="station-form__title">STILLA STÖÐ</h3>
+        <h3 class="station-form__title" id="station-form-title">STILLA STÖÐ</h3>
         <label class="station-form__row">
           <span>Velja stöð</span>
           <select id="station-select" name="station-select">
@@ -82,6 +94,7 @@
           (listi yfir sjálfvirkar veðurstöðvar Veðurstofunnar).
         </p>
         <menu class="station-form__buttons">
+          <button type="button" value="remove" id="station-remove" hidden>Fjarlægja flipa</button>
           <button type="button" value="cancel" id="station-cancel">Hætta við</button>
           <button type="button" value="reset" id="station-reset">Sjálfgefið</button>
           <button type="submit" value="save" id="station-save">Vista</button>
