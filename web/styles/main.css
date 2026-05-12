@@ -261,6 +261,27 @@ body[data-modal='true'] .console__footer {
   color: var(--label-dim);
 }
 
+.station-form__lookup-status {
+  margin-left: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: none;
+  color: var(--crt-amber-dim);
+}
+
+.station-form__lookup-status[data-state='loading'] {
+  color: var(--crt-amber-dim);
+}
+
+.station-form__lookup-status[data-state='ok'] {
+  color: var(--crt-green-dim);
+}
+
+.station-form__lookup-status[data-state='error'] {
+  color: var(--needle);
+}
+
 .station-form__row input {
   all: unset;
   background: var(--screen-lit-bg);

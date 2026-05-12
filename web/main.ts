@@ -241,9 +241,51 @@ function wireStationDialog() {
     }
     stationSelect.addEventListener('change', () => {
       const found = STATIONS.find((s) => String(s.id) === stationSelect.value);
-      if (found) fill(found);
+      if (found) {
+        fill(found);
+        setLookupStatus('', null);
+      }
     });
   }
+
+  const idInput = form.elements.namedItem('id') as HTMLInputElement;
+  const status = document.getElementById('station-lookup-status');
+  const setLookupStatus = (text: string, state: 'loading' | 'ok' | 'error' | null) => {
+    if (!status) return;
+    status.textContent = text;
+    if (state) status.dataset.state = state;
+    else delete status.dataset.state;
+  };
+  let lookupSeq = 0;
+  const lookupStation = async (id: number) => {
+    const my = ++lookupSeq;
+    setLookupStatus('Sæki…', 'loading');
+    try {
+      const res = await fetch(`/api/station-info?id=${id}`);
+      if (my !== lookupSeq) return;
+      if (res.status === 404) {
+        setLookupStatus('Stöð fannst ekki', 'error');
+        return;
+      }
+      if (!res.ok) {
+        setLookupStatus('Uppfletting mistókst', 'error');
+        return;
+      }
+      const data = (await res.json()) as Station;
+      if (my !== lookupSeq) return;
+      fill(data);
+      syncSelect(data);
+      setLookupStatus(`Fyllt: ${data.name}`, 'ok');
+    } catch {
+      if (my !== lookupSeq) return;
+      setLookupStatus('Uppfletting mistókst', 'error');
+    }
+  };
+  idInput.addEventListener('change', () => {
+    const id = Number(idInput.value);
+    if (!Number.isFinite(id) || id <= 0) return;
+    void lookupStation(id);
+  });
 
   const escHandler = (ev: KeyboardEvent) => {
     if (ev.key === 'Escape' && dialog.open) {
@@ -254,6 +296,7 @@ function wireStationDialog() {
 
   const openDialog = (mode: DialogMode) => {
     dialogMode = mode;
+    setLookupStatus('', null);
     if (mode === 'edit') {
       const s = activeStation();
       fill(s);
