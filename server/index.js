@@ -8,6 +8,7 @@ import { getForecast } from './sources/forecast.js';
 import { getWarnings } from './sources/warnings.js';
 import { getTextaspa } from './sources/textaspa.js';
 import { getQuakes } from './sources/quakes.js';
+import { getStationInfo } from './sources/stations.js';
 import { DEFAULT_STATION, resolveCoord, resolveStationId } from './config.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
@@ -89,6 +90,22 @@ async function handleApi(req, res, pathname, query) {
         return sendJson(res, 200, await getTextaspa());
       case '/api/quakes':
         return sendJson(res, 200, await getQuakes());
+      case '/api/station-info': {
+        const raw = query.get('id');
+        const id = Number(raw);
+        if (!Number.isFinite(id) || id <= 0) {
+          return sendJson(res, 400, { error: 'invalid id' });
+        }
+        try {
+          return sendJson(res, 200, await getStationInfo(Math.trunc(id)));
+        } catch (err) {
+          const status = err?.statusCode === 404 ? 404 : 502;
+          return sendJson(res, status, {
+            error: status === 404 ? 'not_found' : 'upstream',
+            message: err instanceof Error ? err.message : String(err),
+          });
+        }
+      }
       case '/api/health':
         return sendJson(res, 200, { ok: true, ts: new Date().toISOString() });
       default:
