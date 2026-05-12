@@ -248,7 +248,6 @@ function wireStationDialog() {
     });
   }
 
-  const idInput = form.elements.namedItem('id') as HTMLInputElement;
   const status = document.getElementById('station-lookup-status');
   const setLookupStatus = (text: string, state: 'loading' | 'ok' | 'error' | null) => {
     if (!status) return;
@@ -256,36 +255,21 @@ function wireStationDialog() {
     if (state) status.dataset.state = state;
     else delete status.dataset.state;
   };
-  let lookupSeq = 0;
-  const lookupStation = async (id: number) => {
-    const my = ++lookupSeq;
+  async function lookupStation(id: number): Promise<Station | null> {
     setLookupStatus('Sæki…', 'loading');
-    try {
-      const res = await fetch(`/api/station-info?id=${id}`);
-      if (my !== lookupSeq) return;
-      if (res.status === 404) {
-        setLookupStatus('Stöð fannst ekki', 'error');
-        return;
-      }
-      if (!res.ok) {
-        setLookupStatus('Uppfletting mistókst', 'error');
-        return;
-      }
-      const data = (await res.json()) as Station;
-      if (my !== lookupSeq) return;
-      fill(data);
-      syncSelect(data);
-      setLookupStatus(`Fyllt: ${data.name}`, 'ok');
-    } catch {
-      if (my !== lookupSeq) return;
-      setLookupStatus('Uppfletting mistókst', 'error');
+    const res = await fetch(`/api/station-info?id=${id}`);
+    if (res.status === 404) {
+      setLookupStatus('Stöð fannst ekki á vedur.is', 'error');
+      return null;
     }
-  };
-  idInput.addEventListener('change', () => {
-    const id = Number(idInput.value);
-    if (!Number.isFinite(id) || id <= 0) return;
-    void lookupStation(id);
-  });
+    if (!res.ok) {
+      setLookupStatus('Uppfletting mistókst', 'error');
+      return null;
+    }
+    const data = (await res.json()) as Station;
+    setLookupStatus(`Fyllt: ${data.name}`, 'ok');
+    return data;
+  }
 
   const escHandler = (ev: KeyboardEvent) => {
     if (ev.key === 'Escape' && dialog.open) {
@@ -354,29 +338,36 @@ function wireStationDialog() {
     applyActiveTab();
   });
 
-  form.addEventListener('submit', (ev) => {
+  form.addEventListener('submit', async (ev) => {
     ev.preventDefault();
     const fd = new FormData(form);
-    const next: Station = {
-      id: Number(fd.get('id')),
-      name: String(fd.get('name') ?? '').trim(),
-      lat: Number(fd.get('lat')),
-      lon: Number(fd.get('lon')),
-    };
-    if (
-      !Number.isFinite(next.id) ||
-      next.id <= 0 ||
-      !next.name ||
-      !Number.isFinite(next.lat) ||
-      !Number.isFinite(next.lon)
-    ) {
-      return;
-    }
+    const typedId = Number(fd.get('id'));
+    if (!Number.isFinite(typedId) || typedId <= 0) return;
+
+    let next: Station;
     if (dialogMode === 'add') {
       if (tabState.stations.length >= MAX_TABS) return;
+      const submitBtn = saveBtn as HTMLButtonElement | null;
+      if (submitBtn) submitBtn.disabled = true;
+      try {
+        const looked = await lookupStation(typedId);
+        if (!looked) return; // 404 or upstream error — keep dialog open
+        next = looked;
+        fill(looked);
+        syncSelect(looked);
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
       tabState.stations.push(next);
       tabState.activeIndex = tabState.stations.length - 1;
     } else {
+      next = {
+        id: typedId,
+        name: String(fd.get('name') ?? '').trim(),
+        lat: Number(fd.get('lat')),
+        lon: Number(fd.get('lon')),
+      };
+      if (!next.name || !Number.isFinite(next.lat) || !Number.isFinite(next.lon)) return;
       tabState.stations[tabState.activeIndex] = next;
     }
     persist();
