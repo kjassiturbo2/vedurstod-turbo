@@ -169,7 +169,7 @@ function buildGauge(): { root: SVGElement; needle: SVGElement; gustNeedle: SVGEl
     'text',
     {
       x: cx,
-      y: cy + 52,
+      y: cy + 55,
       class: 'wind-gauge__readout',
       'text-anchor': 'middle',
     },
