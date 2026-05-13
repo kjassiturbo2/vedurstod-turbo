@@ -426,7 +426,7 @@ body[data-modal='true'] .console__footer {
 }
 
 .console__grid > [data-panel='quakes'] {
-  grid-column: span 4;
+  grid-column: span 8;
   grid-row: span 2;
 }
 
@@ -435,9 +435,15 @@ body[data-modal='true'] .console__footer {
   grid-row: span 1;
 }
 
+.console__grid > [data-panel='traffic'] {
+  grid-column: span 4;
+  grid-row: span 1;
+}
+
 @media (max-width: 1100px) {
   .console__grid > [data-panel='quakes'],
-  .console__grid > [data-panel='tides'] {
+  .console__grid > [data-panel='tides'],
+  .console__grid > [data-panel='traffic'] {
     grid-column: span 12;
   }
 }
@@ -1433,13 +1439,25 @@ body[data-modal='true'] .console__footer {
 }
 
 .quake-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 10px;
+  align-content: start;
   overflow-y: auto;
   min-height: 0;
   flex: 1;
   padding-right: 4px;
+}
+
+.quake-list__label,
+.quake-list__empty {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 1100px) {
+  .quake-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .quake-list::-webkit-scrollbar {
