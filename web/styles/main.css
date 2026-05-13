@@ -1612,6 +1612,7 @@ body[data-modal='true'] .console__footer {
   flex: 1;
   min-width: 0;
   overflow-x: auto;
+  overflow-y: hidden;
   scrollbar-width: thin;
 }
 
@@ -1742,7 +1743,7 @@ body[data-modal='true'] .console__footer {
   align-self: flex-end;
   width: 1px;
   height: 18px;
-  margin: 0 8px 5px 12px;
+  margin: 0 8px 1px 12px;
   background: #2a231e;
   border-right: 1px solid #060403;
 }
