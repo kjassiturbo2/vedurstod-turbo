@@ -262,7 +262,7 @@ export function obsPanel(): Panel {
         { class: 'readouts readouts--sub' },
         buildReadout('DAGGARMARK', 'obs-dew', '°C'),
         buildReadout('RAKI', 'obs-rh', '%'),
-        buildReadout('LOFTÞRÝSTINGUR', 'obs-pressure', 'hPa'),
+        buildReadout('LOFTÞRÝSTINGUR', 'obs-pressure', 'mbar'),
       );
       const right = el('div', { class: 'obs__right' }, tempMain, subRow);
 
