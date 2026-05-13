@@ -212,6 +212,7 @@ export function obsPanel(): Panel {
   let statusLamp: HTMLElement;
   let textaspaBody: HTMLElement;
   let textaspaTimestamp: HTMLElement;
+  let statusText: Text;
   let obsUrl = '/api/obs';
   let textaspaUrl = '/api/textaspa';
 
@@ -230,7 +231,8 @@ export function obsPanel(): Panel {
         el('div', { class: 'panel__status' }),
       );
       statusLamp = el('span', { class: 'status-lamp' });
-      header.querySelector('.panel__status')!.append(statusLamp, document.createTextNode(' TENGT'));
+      statusText = document.createTextNode(' TENGT');
+      header.querySelector('.panel__status')!.append(statusLamp, statusText);
 
       const body = el('div', { class: 'panel__body panel__body--obs' });
 
@@ -260,7 +262,7 @@ export function obsPanel(): Panel {
         { class: 'readouts readouts--sub' },
         buildReadout('DAGGARMARK', 'obs-dew', '°C'),
         buildReadout('RAKI', 'obs-rh', '%'),
-        buildReadout('LOFTÞRÝSTINGUR', 'obs-pressure', 'hPa'),
+        buildReadout('LOFTÞRÝSTINGUR', 'obs-pressure', 'mbar'),
       );
       const right = el('div', { class: 'obs__right' }, tempMain, subRow);
 
@@ -295,8 +297,17 @@ export function obsPanel(): Panel {
       if (!gauge) return;
       try {
         const data = await getJson<Obs>(obsUrl);
-        statusLamp.classList.add('status-lamp--on');
+        const hasReading =
+          data.temperature !== null ||
+          data.humidity !== null ||
+          data.pressure !== null ||
+          data.dewPoint !== null ||
+          data.wind.speed !== null ||
+          data.wind.gust !== null ||
+          data.wind.direction !== null;
+        statusLamp.classList.toggle('status-lamp--on', hasReading);
         statusLamp.classList.remove('status-lamp--alert');
+        statusText.data = hasReading ? ' TENGT' : ' ENGIN GÖGN';
 
         const deg = data.wind.direction ? (DIRS[data.wind.direction] ?? null) : null;
         const cx = 150;

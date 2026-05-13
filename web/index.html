@@ -36,24 +36,36 @@
           <span class="console__meta-value" id="clock">--:--:--</span>
         </div>
       </header>
+      <nav class="tabstrip" id="tabstrip" aria-label="Veðurstöðvar">
+        <div class="tabstrip__tabs" id="tabstrip-tabs" role="tablist"></div>
+        <button type="button" class="tabstrip__add" id="tabstrip-add" title="Bæta við flipa" aria-label="Bæta við flipa"></button>
+        <div class="tabstrip__sep" aria-hidden="true"></div>
+        <div class="tabstrip__tools">
+          <button type="button" class="tabstrip__tool" id="preset-export" title="Vista forstillingu (.json)" aria-label="Vista forstillingu"></button>
+          <button type="button" class="tabstrip__tool" id="preset-import" title="Hlaða forstillingu (.json)" aria-label="Hlaða forstillingu"></button>
+          <input type="file" id="preset-file" accept="application/json,.json" hidden />
+        </div>
+      </nav>
       <main class="console__grid">
         <section class="panel panel--obs" data-panel="obs"></section>
         <section class="panel panel--forecast" data-panel="forecast"></section>
         <section class="panel panel--warnings" data-panel="warnings"></section>
         <section class="panel panel--moon" data-panel="moon"></section>
-        <section class="panel panel--placeholder" data-panel="tides"></section>
         <section class="panel panel--placeholder" data-panel="quakes"></section>
+        <section class="panel panel--placeholder" data-panel="tides"></section>
         <section class="panel panel--placeholder" data-panel="traffic"></section>
       </main>
       <footer class="console__footer">
         <span class="console__footer-slug" id="footer-station">GÖGN&nbsp;FRÁ&nbsp;<a href="https://www.vedur.is" target="_blank" rel="noopener noreferrer" class="console__footer-link">VEÐURSTOFU&nbsp;ÍSLANDS</a><span id="footer-station-id"></span></span>
-        <span class="console__footer-slug" id="build-slug">v0.6</span>
+        <span class="console__footer-slug" id="build-slug">v0.7</span>
       </footer>
     </div>
 
+    <div id="modal-backdrop" class="modal-backdrop" aria-hidden="true"></div>
+
     <dialog id="station-dialog" class="station-dialog">
       <form method="dialog" class="station-form" id="station-form">
-        <h3 class="station-form__title">STILLA STÖÐ</h3>
+        <h3 class="station-form__title" id="station-form-title">STILLA STÖÐ</h3>
         <label class="station-form__row">
           <span>Velja stöð</span>
           <select id="station-select" name="station-select">
@@ -61,7 +73,7 @@
           </select>
         </label>
         <label class="station-form__row">
-          <span>Stöðvarnúmer</span>
+          <span>Stöðvarnúmer <span class="station-form__lookup-status" id="station-lookup-status" aria-live="polite"></span></span>
           <input name="id" type="number" min="1" step="1" required />
         </label>
         <label class="station-form__row">
@@ -78,10 +90,11 @@
         </label>
         <p class="station-form__help">
           Stöðvarnúmer má finna á
-          <a href="https://xmlweather.vedur.is/" target="_blank" rel="noopener noreferrer">xmlweather.vedur.is</a>
-          (listi yfir sjálfvirkar veðurstöðvar Veðurstofunnar).
+          <a href="https://www.vedur.is/vedur/stodvar/" target="_blank" rel="noopener noreferrer">vedur.is/vedur/stodvar</a>
+          (listi yfir veðurstöðvar Veðurstofunnar).
         </p>
         <menu class="station-form__buttons">
+          <button type="button" value="remove" id="station-remove" hidden>Fjarlægja flipa</button>
           <button type="button" value="cancel" id="station-cancel">Hætta við</button>
           <button type="button" value="reset" id="station-reset">Sjálfgefið</button>
           <button type="submit" value="save" id="station-save">Vista</button>

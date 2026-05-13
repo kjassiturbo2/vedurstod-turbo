@@ -129,7 +129,7 @@ function parsePage(html) {
 
 async function load() {
   const res = await fetch(PAGE_URL, {
-    headers: { accept: 'text/html', 'user-agent': 'vedurstod-turbo/0.6 (+https://github.com)' },
+    headers: { accept: 'text/html', 'user-agent': 'vedurstod-turbo/0.7 (+https://github.com)' },
   });
   if (!res.ok) throw new Error(`quakes ${res.status}`);
   const html = await res.text();

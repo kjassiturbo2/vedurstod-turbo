@@ -118,7 +118,7 @@ export function quakesPanel(): Panel {
 
         const recent = quakes
           .filter((q) => !featured || q.id !== featured.id)
-          .slice(0, 12);
+          .slice(0, 16);
 
         body.innerHTML = '';
 
