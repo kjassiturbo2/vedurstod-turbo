@@ -844,6 +844,18 @@ body[data-modal='true'] .console__footer {
   letter-spacing: 0.02em;
 }
 
+.readout__value--neg::before {
+  content: '';
+  display: inline-block;
+  width: 0.34em;
+  height: 0.14em;
+  background: currentColor;
+  vertical-align: 0.32em;
+  margin-right: 0.1em;
+  border-radius: 1px;
+  box-shadow: 0 0 8px var(--crt-amber-dim);
+}
+
 .readout__unit {
   font-family: 'Oswald', sans-serif;
   font-size: 10px;

@@ -68,6 +68,24 @@ function fmt(value: number | null, digits = 0, suffix = ''): string {
   return value.toFixed(digits) + suffix;
 }
 
+// Splits the leading minus off into a CSS-drawn thin bar so the VT323
+// hyphen-minus (which renders the full width of a digit cell) doesn't push
+// negative temperatures out of their readout box.
+function paintSigned(el: HTMLElement, value: number | null, digits = 1) {
+  if (value === null || value === undefined || Number.isNaN(value)) {
+    el.classList.remove('readout__value--neg');
+    el.textContent = '—';
+    return;
+  }
+  if (value < 0) {
+    el.classList.add('readout__value--neg');
+    el.textContent = Math.abs(value).toFixed(digits);
+  } else {
+    el.classList.remove('readout__value--neg');
+    el.textContent = value.toFixed(digits);
+  }
+}
+
 function buildGauge(): { root: SVGElement; needle: SVGElement; gustNeedle: SVGElement; speedText: SVGElement; gustText: SVGElement } {
   const size = 300;
   const cx = size / 2;
@@ -325,8 +343,8 @@ export function obsPanel(): Panel {
         gauge.gustText.textContent =
           data.wind.gust !== null ? `HVIÐA ${fmt(data.wind.gust, 0)} m/s` : 'HVIÐA —';
 
-        document.getElementById('obs-temp')!.textContent = fmt(data.temperature, 1);
-        document.getElementById('obs-dew')!.textContent = fmt(data.dewPoint, 1);
+        paintSigned(document.getElementById('obs-temp')!, data.temperature, 1);
+        paintSigned(document.getElementById('obs-dew')!, data.dewPoint, 1);
         document.getElementById('obs-rh')!.textContent = fmt(data.humidity, 0);
         document.getElementById('obs-pressure')!.textContent = fmt(data.pressure, 0);
 
